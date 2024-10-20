@@ -35,7 +35,7 @@ public class EquipeServiceImpl implements IEquipeService {
         DetailsEquipe detailsEquipe = DetailsEquipe.fromRequestEquipeDTOTODetailsEquipe(requestEquipeDTO);
         detailsEquipe.setIdDetailEquipe(util.generateId(P_CONSTANTES.PREFIXEQDET.concat(String.valueOf(detailsEquipeService.getCountOfDetailsEquipe().getData()))));
         equipe.setDetailsEquipe(detailsEquipe);
-        detailsEquipe.setEquipe(equipe);
+        //detailsEquipe.setEquipe(equipe);
         return new GlobalResponse<>(ResponseEquipeDTO.fromEntityToResponseEquipeDTO(equipeRepository.save(equipe)),true);
     }
 

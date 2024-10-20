@@ -22,10 +22,7 @@ public class DetailsEquipe {
     private int salle;
     private String thematique;
 
-    @OneToOne
-    @JoinColumn(name = "id_equipe")
-    @JsonBackReference
-    private Equipe equipe;
+
 
     public static DetailsEquipe fromRequestEquipeDTOTODetailsEquipe(RequestEquipeDTO requestEquipeDTO){
         return DetailsEquipe.builder()
