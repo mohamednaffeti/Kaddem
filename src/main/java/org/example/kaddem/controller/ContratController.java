@@ -26,6 +26,7 @@ public class ContratController {
 
     @PostMapping("/save")
     public ResponseEntity<GlobalResponse<ResponseContratDTO>> addContrat(@RequestBody RequestContratDTO requestContratDTO){
+        System.out.println("hello");
         return ResponseEntity.status(HttpStatus.CREATED).body(contratService.addContratOfEtudiant(requestContratDTO));
 
     }
