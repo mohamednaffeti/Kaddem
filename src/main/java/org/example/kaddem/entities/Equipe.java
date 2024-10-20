@@ -26,7 +26,8 @@ public class Equipe {
     @ManyToMany(mappedBy = "equipes",fetch = FetchType.EAGER)
     private List<Etudiant> etudiants = new ArrayList<>();
 
-    @OneToOne(mappedBy = "equipe",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_detail_equipe")
     @JsonManagedReference
     private DetailsEquipe detailsEquipe;
 

@@ -11,10 +11,6 @@ import java.util.Optional;
 @Component
 public interface DetailsEquipeRepository extends JpaRepository<DetailsEquipe,String> {
 
-    Optional<DetailsEquipe> findByEquipe_IdEquipe(String equipeId);
-
-    @Query("SELECT d from DetailsEquipe d where d.equipe.idEquipe= :equipeId")
-    Optional<DetailsEquipe> findByIdEquipe(@Param("equipeId") String equipeId);
 
     @Query("SELECT COUNT(d) from DetailsEquipe d")
     Long countRowsInDetailsEquipe();
