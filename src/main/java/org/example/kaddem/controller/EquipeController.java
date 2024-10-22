@@ -28,4 +28,15 @@ public class EquipeController {
         return ResponseEntity.status(200).body(equipeService.retrieveAllEquipes());
     }
 
+    @PutMapping("/updateEquipe/{equipeId}")
+    public ResponseEntity<GlobalResponse<ResponseEquipeDTO>> updateEquipe(@RequestBody RequestEquipeDTO requestEquipeDTO,@PathVariable String equipeId){
+        return ResponseEntity.status(200).body(equipeService.updateEquipe(requestEquipeDTO, equipeId));
+    }
+
+    @GetMapping("/getEquipeById/{equipeId}")
+    public ResponseEntity<GlobalResponse<ResponseEquipeDTO>> getEquipeById(@PathVariable String equipeId){
+        return ResponseEntity.status(200).body(equipeService.retrieveEquipe(equipeId));
+    }
+
+
 }

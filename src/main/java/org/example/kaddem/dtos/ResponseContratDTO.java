@@ -7,9 +7,12 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.example.kaddem.entities.Contrat;
+import org.example.kaddem.entities.Equipe;
 import org.example.kaddem.enums.Specialite;
 
 import java.time.LocalDate;
+import java.util.List;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

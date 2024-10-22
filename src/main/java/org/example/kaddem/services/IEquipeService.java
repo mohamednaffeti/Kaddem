@@ -12,5 +12,9 @@ public interface IEquipeService {
 
     GlobalResponse<List<ResponseEquipeDTO>> retrieveAllEquipes();
 
+    GlobalResponse<ResponseEquipeDTO> updateEquipe(RequestEquipeDTO requestEquipeDTO,String equipeId);
+
+    GlobalResponse<ResponseEquipeDTO> retrieveEquipe(String equipeId);
+
 
 }

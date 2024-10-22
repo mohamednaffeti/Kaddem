@@ -1,6 +1,7 @@
 package org.example.kaddem.services;
 
 import jakarta.transaction.Transactional;
+import org.example.kaddem.controller.EquipeController;
 import org.example.kaddem.dtos.GlobalResponse;
 import org.example.kaddem.dtos.RequestEquipeDTO;
 import org.example.kaddem.dtos.ResponseEquipeDTO;
@@ -42,14 +43,32 @@ public class EquipeServiceImpl implements IEquipeService {
     @Override
     public GlobalResponse<List<ResponseEquipeDTO>> retrieveAllEquipes() {
         List<Equipe > list = equipeRepository.findAll();
-
-
         return new GlobalResponse<>(
                 equipeRepository.findAll()
                         .stream()
                         .map(ResponseEquipeDTO::fromEntityToResponseEquipeDTO)
                         .toList()
                 ,true);
+    }
+
+    @Override
+    public GlobalResponse<ResponseEquipeDTO> updateEquipe(RequestEquipeDTO requestEquipeDTO,String equipeId) {
+        GlobalResponse<ResponseEquipeDTO> equipe = retrieveEquipe(equipeId);
+        if(! equipe.isSucces()){
+            return new GlobalResponse<>(null,false,"id equipe n'existe pas "+ equipeId);
+        }
+        Equipe equipe1 = Equipe.fromRequestDTOtoEntity(requestEquipeDTO);
+        equipe1.setIdEquipe(equipeId);
+        DetailsEquipe detailsEquipe = DetailsEquipe.fromRequestEquipeDTOTODetailsEquipe(requestEquipeDTO);
+        equipe1.setDetailsEquipe(detailsEquipe);
+        return new GlobalResponse<>(ResponseEquipeDTO.fromEntityToResponseEquipeDTO(equipeRepository.save(equipe1)),true);
+    }
+
+    @Override
+    public GlobalResponse<ResponseEquipeDTO> retrieveEquipe(String equipeId) {
+        return (equipeRepository.findById(equipeId).isPresent())
+                ? new GlobalResponse<>(ResponseEquipeDTO.fromEntityToResponseEquipeDTO(equipeRepository.findById(equipeId).get()),true)
+                : new GlobalResponse<>(null,false);
     }
 
 
