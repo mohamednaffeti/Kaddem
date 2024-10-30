@@ -19,8 +19,13 @@ public class Departement {
     private String idDepartement;
     private String nomDepartement;
 
-    @OneToMany (mappedBy = "departement")
+    @OneToMany (mappedBy = "departement",fetch = FetchType.EAGER)
     private List<Etudiant> etudiants;
+
+    @ManyToOne
+    @JoinColumn(name = "university_id")
+    private Universite universite;
+
 
 
     public static Departement fromDTORequestToDepartement(RequestDepartementDTO requestDepartementDTO){

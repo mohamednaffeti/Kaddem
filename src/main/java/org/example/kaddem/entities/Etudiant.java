@@ -22,19 +22,22 @@ public class Etudiant {
     @Enumerated(EnumType.STRING)
     private Option option;
 
-    @OneToMany(mappedBy = "etudiant",cascade = CascadeType.REMOVE,fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "etudiant",cascade = CascadeType.PERSIST,fetch = FetchType.EAGER)
+    @ToString.Exclude
     private List<Contrat> contrats;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.PERSIST)
     @JoinTable(
             name = "etudiants_equipes",
             joinColumns = @JoinColumn(name = "etudiant_id"),
             inverseJoinColumns = @JoinColumn(name = "equipe_id")
     )
+    @ToString.Exclude
     private List<Equipe> equipes = new ArrayList<>(); // à tester lfaza taa add directement mel code tetzed fel base de données
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "departement_id")
+    @ToString.Exclude
     private Departement departement;
     public static Etudiant toEtudiantFromRequest(RequestEtudiantDTO etudiantDTO){
         return Etudiant.builder()
@@ -51,5 +54,6 @@ public class Etudiant {
                 .option(etudiantDTO.getOption())
                 .build();
     }
+
 
 }

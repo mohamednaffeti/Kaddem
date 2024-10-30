@@ -44,4 +44,23 @@ public class EtudiantController {
         return ResponseEntity.status(HttpStatus.OK).body(etudiantService.removeEtudiant(etudiantId));
     }
 
+    @GetMapping("/AffectStudentToDepartment/{etudiantId}/{departmentId}")
+    public ResponseEntity<GlobalResponse<Boolean>> AffectStudentToDepartment(@PathVariable String etudiantId, @PathVariable String departmentId){
+        return ResponseEntity.status(200).body(etudiantService.assignEtudiantToDepartement(etudiantId,departmentId));
+    }
+
+    @PostMapping("/addAndAssignEtudiantToEquipeAndContract/{idcontract}/{idequipe}")
+    public ResponseEntity<GlobalResponse<ResponseEtudiantDTO>> addAndAssignEtudiantToEquipeAndContract(
+            @RequestBody RequestEtudiantDTO requestEtudiantDTO,
+            String idcontract,
+            String idequipe  ){
+        return ResponseEntity.status(200).body(etudiantService.addAndAssignEtudiantToEquipeAndContract(
+                requestEtudiantDTO,idcontract,idequipe
+        ));
+    }
+
+    @GetMapping("/GetStudentByDepartment/{departmentId}")
+    public ResponseEntity<GlobalResponse<List<ResponseEtudiantDTO>>> GetStudentByDepartment(@PathVariable String departmentId){
+        return ResponseEntity.status(200).body(etudiantService.getByDepartement(departmentId));
+    }
 }

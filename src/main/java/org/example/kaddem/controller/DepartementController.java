@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @ResponseBody
@@ -46,7 +47,19 @@ public class DepartementController {
         return ResponseEntity.status(200).body(departementService.deleteById(departementId));
     }
 
+    @GetMapping("/AffectUniversityToDepartment/{universityId}/{departmentId}")
+    public ResponseEntity<GlobalResponse<Boolean>> AffectStudentToDepartment(@PathVariable String universityId, @PathVariable String departmentId){
+        return ResponseEntity.status(200).body(departementService.assignUniversiteToDepartement(universityId,departmentId));
+    }
 
+    @GetMapping("/getDeptsByUniversity/{UniversityId}")
+    public ResponseEntity<GlobalResponse<List<ResponseDepartementDTO>>> getDepartementsByUniversity(@PathVariable String UniversityId){
+        return ResponseEntity.status(200).body(departementService.retreiveDepartementsByUniversite(UniversityId));
+    }
 
+    @GetMapping("/groupeByDepartement")
+    public ResponseEntity<GlobalResponse<Map<String, List<Object[]>>>> groupeByDepartement(){
+        return ResponseEntity.status(200).body(departementService.groupeByDepartement());
+    }
 
 }

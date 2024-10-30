@@ -6,5 +6,6 @@ public class P_CONSTANTES {
     public static final String PREFIXDEPT = "DEPT";
     public static final String PREFIXEQUIP = "EQUIP";
     public static final String PREFIXEQDET = "EQDET";
+    public static final String PREFIXUNIV = "UNIV";
 
 }

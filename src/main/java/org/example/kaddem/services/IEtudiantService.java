@@ -17,5 +17,8 @@ public interface IEtudiantService {
 
     GlobalResponse<List<ResponseEtudiantDTO>> getAll();
 
+    GlobalResponse<Boolean> assignEtudiantToDepartement (String etudiantId, String departementId);
 
+    GlobalResponse<ResponseEtudiantDTO> addAndAssignEtudiantToEquipeAndContract(RequestEtudiantDTO e, String idContrat, String idEquipe);
+    GlobalResponse<List<ResponseEtudiantDTO>> getByDepartement(String idDepartement);
 }

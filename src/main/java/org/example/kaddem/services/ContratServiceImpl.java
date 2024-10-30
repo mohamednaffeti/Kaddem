@@ -6,13 +6,16 @@ import org.example.kaddem.dtos.ResponseContratDTO;
 import org.example.kaddem.dtos.ResponseEtudiantDTO;
 import org.example.kaddem.entities.Contrat;
 import org.example.kaddem.entities.Etudiant;
+import org.example.kaddem.enums.Specialite;
 import org.example.kaddem.prefixConstantes.P_CONSTANTES;
 import org.example.kaddem.repositories.ContratRepository;
 import org.example.kaddem.repositories.EtudiantRepository;
 import org.example.kaddem.utils.Util;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.time.LocalDate;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class ContratServiceImpl implements IContratService {
@@ -34,11 +37,16 @@ public class ContratServiceImpl implements IContratService {
 
        Contrat contrat = Contrat.toContract(requestContratDTO);
        contrat.setId(util.generateId(P_CONSTANTES.PREFIXContrat.concat(String.valueOf(this.getAllContracts().getData().size()))));
-       Etudiant etudiant = etudiantRepository.findById(requestContratDTO.getEtudiantId()).orElse(null);
-       if(etudiant != null){
-           contrat.setEtudiant(etudiant);
-           return new GlobalResponse<>(ResponseContratDTO.toResponseContratDTO(contratRepository.save(contrat)),true);
-       }
+       if(requestContratDTO.getEtudiantId() != null){
+          Etudiant etudiant = etudiantRepository.findById(requestContratDTO.getEtudiantId()).orElse(null);
+          if(etudiant != null){
+              contrat.setEtudiant(etudiant);
+              return new GlobalResponse<>(ResponseContratDTO.toResponseContratDTO(contratRepository.save(contrat)),true);
+          }
+      }else {
+          return new GlobalResponse<>(ResponseContratDTO.toResponseContratDTO(contratRepository.save(contrat)),true);
+      }
+
        return new GlobalResponse<>(null,false);
        }
 
@@ -80,6 +88,46 @@ public class ContratServiceImpl implements IContratService {
 
         return (this.retreiveContractById(contractId).isSucces()) ? new GlobalResponse<>(true) :
                 new GlobalResponse<>(false);
+    }
+
+    @Override
+    public GlobalResponse<ResponseContratDTO> affectContratToEtudiant(String idContrat, String nomE, String prenomE) {
+        Optional<Etudiant> etudiant = etudiantRepository.getByFullName(nomE,prenomE);
+        if(etudiant.isPresent()){
+            contratRepository.affectContractToStudent(etudiant.get(),idContrat);
+            return new GlobalResponse<>(null,true,"affectation réussi");
+        }else{
+            return new GlobalResponse<>(null,false,"etudiant n'existe pas");
+        }
+    }
+
+    @Override
+    public GlobalResponse<List<String>> findMontantParSpecialite(LocalDate dateDebut, LocalDate dateFin) {
+        List<String> mtsParSpecialite = new ArrayList<>();
+        List<Object[]> results = contratRepository.findMontantParSpecialite(LocalDate.of(2024,10,29),LocalDate.of(2024,11,29));
+
+        for(Object[] row : results){
+            Specialite specialite = (Specialite) row[0];
+            long totalMontant = (long) row[1];
+            String ch = "Pour un contrat dont la spécialité est "+ specialite+ " : "+totalMontant+"DT";
+            mtsParSpecialite.add(ch);
+        }
+        return new GlobalResponse<>(mtsParSpecialite,true);
+    }
+
+    @Override
+    public GlobalResponse<Long> nbContratsValides(LocalDate startDate, LocalDate endDate) {
+       long nbrContracts = contratRepository.nbContratsValides(startDate,endDate);
+       return new GlobalResponse<>(nbrContracts,true);
+    }
+
+    @Override
+    public GlobalResponse<Map<String, List<Object[]>>> findContractActiveByStudent() {
+        List<Object[]> objects = contratRepository.findActifContract();
+        Map<String, List<Object[]>> activeContractPerStudent ;
+       activeContractPerStudent = objects.stream()
+               .collect(Collectors.groupingBy(o -> String.valueOf(o[0]) ));
+       return new GlobalResponse<>(activeContractPerStudent,true);
     }
 
 }

@@ -10,7 +10,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @ResponseBody
@@ -26,7 +28,6 @@ public class ContratController {
 
     @PostMapping("/save")
     public ResponseEntity<GlobalResponse<ResponseContratDTO>> addContrat(@RequestBody RequestContratDTO requestContratDTO){
-        System.out.println("hello");
         return ResponseEntity.status(HttpStatus.CREATED).body(contratService.addContratOfEtudiant(requestContratDTO));
 
     }
@@ -49,5 +50,26 @@ public class ContratController {
     @DeleteMapping("/deleteContractById/{contractId}")
     public ResponseEntity<GlobalResponse<Boolean>> deleteById(@PathVariable String contractId){
         return ResponseEntity.status(200).body(contratService.deleteContractById(contractId));
+    }
+
+    @GetMapping("/affectContractToStudent/{idContrat}/{nomE}/{prenomE}")
+    public ResponseEntity<GlobalResponse<ResponseContratDTO>> affectContractToStudent(@PathVariable String idContrat ,@PathVariable String nomE,@PathVariable String prenomE){
+        return ResponseEntity.status(200).body(contratService.affectContratToEtudiant(idContrat,nomE,prenomE));
+    }
+
+    @GetMapping("/findMtPerSpecialite/{dateDebut}/{dateFin}")
+    public ResponseEntity<GlobalResponse<List<String>>> findMtPerSpecialite(LocalDate dateDebut,LocalDate dateFin){
+        return ResponseEntity.status(200).body(contratService.findMontantParSpecialite(dateDebut,dateFin));
+    }
+
+
+    @GetMapping("/nbrContractValides/{dateDebut}/{dateFin}")
+    public ResponseEntity<GlobalResponse<Long>> nbrContractValides(LocalDate dateDebut,LocalDate dateFin){
+        return ResponseEntity.status(200).body(contratService.nbContratsValides(dateDebut,dateFin));
+    }
+
+    @GetMapping("/contratValidesParEtudiant")
+    public ResponseEntity<GlobalResponse<Map<String,List<Object[]>>>> contratValidesParEtudiant(){
+        return ResponseEntity.status(200).body(contratService.findContractActiveByStudent());
     }
 }

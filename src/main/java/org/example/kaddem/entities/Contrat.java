@@ -14,7 +14,6 @@ import java.time.LocalDate;
 @Builder
 public class Contrat {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private String id;
     private LocalDate dateDebutContrat;
     private LocalDate dateFinContrat;

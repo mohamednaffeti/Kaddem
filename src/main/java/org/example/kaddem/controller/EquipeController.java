@@ -3,6 +3,7 @@ package org.example.kaddem.controller;
 import org.example.kaddem.dtos.GlobalResponse;
 import org.example.kaddem.dtos.RequestEquipeDTO;
 import org.example.kaddem.dtos.ResponseEquipeDTO;
+import org.example.kaddem.enums.Niveau;
 import org.example.kaddem.services.IEquipeService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -36,6 +37,11 @@ public class EquipeController {
     @GetMapping("/getEquipeById/{equipeId}")
     public ResponseEntity<GlobalResponse<ResponseEquipeDTO>> getEquipeById(@PathVariable String equipeId){
         return ResponseEntity.status(200).body(equipeService.retrieveEquipe(equipeId));
+    }
+
+    @GetMapping("/getEquipeByNiveau/{niveau}")
+    public ResponseEntity<GlobalResponse<List<ResponseEquipeDTO>>> findByNiveau(@PathVariable Niveau niveau){
+        return ResponseEntity.status(200).body(equipeService.findByNiveau(niveau));
     }
 
 

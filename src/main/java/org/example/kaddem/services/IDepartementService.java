@@ -6,6 +6,7 @@ import org.example.kaddem.dtos.ResponseContratDTO;
 import org.example.kaddem.dtos.ResponseDepartementDTO;
 
 import java.util.List;
+import java.util.Map;
 
 public interface IDepartementService {
 
@@ -18,5 +19,9 @@ public interface IDepartementService {
     GlobalResponse<ResponseDepartementDTO> retreiveById(String departementId);
 
     GlobalResponse<Boolean> deleteById(String departementId);
+    GlobalResponse<Boolean> assignUniversiteToDepartement (String universityId, String departementId) ;
 
+    GlobalResponse<List<ResponseDepartementDTO>> retreiveDepartementsByUniversite(String universityId);
+
+    GlobalResponse<Map<String,List<Object[]>>> groupeByDepartement();
 }
