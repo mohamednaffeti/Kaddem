@@ -9,12 +9,17 @@ import org.example.kaddem.repositories.EtudiantRepository;
 
 import java.time.LocalDate;
 import java.util.List;
+
+import org.example.kaddem.services.IDepartementService;
+import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 
 @SpringBootApplication
+@EnableAspectJAutoProxy
 public class KaddemApplication implements CommandLineRunner {
     @Autowired
     private EtudiantRepository etudiantRepository;

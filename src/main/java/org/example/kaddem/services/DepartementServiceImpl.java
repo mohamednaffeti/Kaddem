@@ -10,6 +10,8 @@ import org.example.kaddem.repositories.DepartementRepository;
 import org.example.kaddem.repositories.UniversiteRepository;
 import org.example.kaddem.utils.Util;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,6 +20,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+@Scope("prototype")
 public class DepartementServiceImpl implements IDepartementService {
 
 
@@ -34,7 +37,7 @@ public class DepartementServiceImpl implements IDepartementService {
     @Override
     public GlobalResponse<List<ResponseDepartementDTO>> retreiveAllDepartements() {
         return new GlobalResponse<>(
-                departementRepository.findAll()
+                departementRepository.findAll(Sort.by(Sort.Direction.DESC,"nomDepartement"))
                         .stream()
                         .map(ResponseDepartementDTO::fromDeptToResponseDepartementDTO)
                         .toList(),

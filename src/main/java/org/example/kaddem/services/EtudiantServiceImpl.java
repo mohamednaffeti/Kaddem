@@ -18,11 +18,12 @@ import org.example.kaddem.repositories.EquipeRepository;
 import org.example.kaddem.repositories.EtudiantRepository;
 import org.example.kaddem.utils.Util;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class EtudiantServiceImpl implements IEtudiantService {
@@ -126,5 +127,41 @@ public class EtudiantServiceImpl implements IEtudiantService {
                 .map(ResponseEtudiantDTO::toEtudiantDTOResponse)
                 .toList();
         return new GlobalResponse<>(responseEtudiantDTOS,true,"List des etudiant pour dept "+idDepartement);
+    }
+
+    @Override
+    public GlobalResponse<Map<String, List<String>>> getStudentByDepartementName(String deptName) {
+        Map<String,List<String>> studentByDepartment = new HashMap<>();
+        List<String> objects = etudiantRepository.getStudentByDepartement(deptName);
+        String name = "Les étudiants pour le département "+deptName;
+        List<String> etudiantsNames = new ArrayList<>(objects);
+        studentByDepartment.put(name,etudiantsNames);
+        return new GlobalResponse<>(studentByDepartment,true);
+    }
+
+    @Override
+    public GlobalResponse<List<Object[]>> getByDepartementandActiveContract() {
+
+       return new GlobalResponse<>(etudiantRepository.getByDepartementandActiveContract(),true);
+
+    }
+
+    @Override
+    public GlobalResponse<List<Object[]>> getdetailsEquipesForStudent() {
+        return new GlobalResponse<>(etudiantRepository.getdetailsEquipesForStudent(),true);
+    }
+
+    @Override
+    public GlobalResponse<List<ResponseEtudiantDTO>> getStudentByUniversiy(String universityId) {
+        return new GlobalResponse<>(etudiantRepository.getStudentByUniversiy(universityId).stream()
+                .map(ResponseEtudiantDTO::toEtudiantDTOResponse).toList(),true);
+    }
+
+    @Override
+    public GlobalResponse<Page<ResponseEtudiantDTO>> getAllWithPagination(int offset, int pageSiza) {
+       Page<ResponseEtudiantDTO> page = etudiantRepository
+               .findAll(PageRequest.of(offset,pageSiza, Sort.by(Sort.Direction.DESC,"nomE")))
+               .map(ResponseEtudiantDTO::toEtudiantDTOResponse);
+       return new GlobalResponse<>(page,true,"la page num "+offset+" contient "+pageSiza+" elements");
     }
 }
