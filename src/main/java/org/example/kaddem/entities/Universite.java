@@ -5,7 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.example.kaddem.dtos.RequestUniversiteDTO;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -18,7 +20,14 @@ public class Universite {
     private String idUniversite;
     private String nomUniversite;
 
-    @OneToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
-    @JoinColumn(name = "universite_id")
+    @OneToMany(mappedBy = "universite", fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     private List<Departement> departements;
+
+
+    public static Universite fromRequestUniversiteDtoToUniversite(RequestUniversiteDTO requestUniversiteDTO){
+        return Universite.builder()
+                .nomUniversite(requestUniversiteDTO.getNomUniversite())
+                .departements(new ArrayList<>())
+                .build();
+    }
 }

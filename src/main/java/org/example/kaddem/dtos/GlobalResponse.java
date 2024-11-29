@@ -28,4 +28,9 @@ public class GlobalResponse<T> {
         this.succes = succes;
 
     }
+
+    public GlobalResponse(boolean succes, String message) {
+        this.succes = succes;
+        this.message = message;
+    }
 }

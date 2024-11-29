@@ -7,9 +7,12 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.example.kaddem.entities.Contrat;
+import org.example.kaddem.entities.Equipe;
 import org.example.kaddem.enums.Specialite;
 
 import java.time.LocalDate;
+import java.util.List;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -25,15 +28,18 @@ public class ResponseContratDTO {
     private ResponseEtudiantDTO etudiant;
 
     public static ResponseContratDTO toResponseContratDTO(Contrat contrat){
-        return ResponseContratDTO.builder()
+        ResponseContratDTO responseContratDTO =  ResponseContratDTO.builder()
                 .id(contrat.getId())
                 .dateDebutContrat(contrat.getDateDebutContrat())
                 .dateFinContrat(contrat.getDateFinContrat())
                 .specialite(contrat.getSpecialite())
                 .archive(contrat.isArchive())
                 .montantContrat(contrat.getMontantContrat())
-                .etudiant(ResponseEtudiantDTO.toEtudiantDTOResponse(contrat.getEtudiant()))
                 .build();
+        if(contrat.getEtudiant() != null){
+            responseContratDTO.setEtudiant(ResponseEtudiantDTO.toEtudiantDTOResponse(contrat.getEtudiant()));
+        }
+        return responseContratDTO;
     }
 
 }

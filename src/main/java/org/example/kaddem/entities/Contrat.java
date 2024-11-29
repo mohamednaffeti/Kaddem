@@ -1,10 +1,7 @@
 package org.example.kaddem.entities;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.example.kaddem.dtos.RequestContratDTO;
 import org.example.kaddem.enums.Specialite;
 
@@ -28,6 +25,7 @@ public class Contrat {
     @ManyToOne
     @JoinColumn(name = "etudiant_id")
     private Etudiant etudiant;
+
 
      static public Contrat toContract(RequestContratDTO requestContratDTO){
          return Contrat.builder()

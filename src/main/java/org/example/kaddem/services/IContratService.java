@@ -3,9 +3,10 @@ package org.example.kaddem.services;
 import org.example.kaddem.dtos.GlobalResponse;
 import org.example.kaddem.dtos.RequestContratDTO;
 import org.example.kaddem.dtos.ResponseContratDTO;
-import org.example.kaddem.entities.Contrat;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 public interface IContratService {
 
@@ -19,4 +20,11 @@ public interface IContratService {
 
     GlobalResponse<Boolean> deleteContractById(String contractId);
 
+    GlobalResponse<ResponseContratDTO> affectContratToEtudiant (String idContrat,String nomE,String prenomE);
+
+    GlobalResponse<List<String>> findMontantParSpecialite(LocalDate dateDebut, LocalDate dateFin);
+
+    GlobalResponse<Long> nbContratsValides(LocalDate startDate, LocalDate endDate);
+
+    GlobalResponse<Map<String, List<Object[]>>> findContractActiveByStudent();
 }

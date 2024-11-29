@@ -22,16 +22,20 @@ public class ResponseEquipeDTO {
     @Enumerated(EnumType.STRING)
     private Niveau niveau;
     private DetailsEquipe detailsEquipe;
-    private List<Etudiant> etudiants;
+    private List<ResponseEtudiantDTO> etudiants;
 
     public static ResponseEquipeDTO fromEntityToResponseEquipeDTO(Equipe equipe){
+        List<ResponseEtudiantDTO> etudiantDTOS =
+                equipe.getEtudiants().stream()
+                        .map(ResponseEtudiantDTO::toEtudiantDTOResponse).toList();
         return ResponseEquipeDTO.builder()
                 .idEquipe(equipe.getIdEquipe())
                 .nomEquipe(equipe.getNomEquipe())
                 .niveau(equipe.getNiveau())
                 .detailsEquipe(equipe.getDetailsEquipe())
-                .etudiants(equipe.getEtudiants())
+                .etudiants(etudiantDTOS)
                 .build();
+
     }
 
 }
